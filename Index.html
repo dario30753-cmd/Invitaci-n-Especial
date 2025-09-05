@@ -1,0 +1,448 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Invitación - Mis 15</title>
+  <link href="https://fonts.googleapis.com/css2?family=Parisienne&family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --emerald:#2F7D61;
+      --lily:#7FB77E;
+      --lilac:#C8A2C8;
+      --gold:#D4AF37;
+      --navy:#0D1B2A;
+      --ivory:#F8F5F2;
+      --glass-bg: rgba(255,255,255,0.10);
+      --glass-brd: rgba(255,255,255,0.35);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      color:var(--ivory);
+      font-family:"Cormorant Garamond", serif;
+      background:
+        radial-gradient(1200px 600px at 20% 10%, rgba(212,175,55,0.10), transparent 60%),
+        radial-gradient(900px 500px at 80% 0%, rgba(200,162,200,0.08), transparent 60%),
+        linear-gradient(180deg, #10233a 0%, var(--navy) 40%, #0b1a27 100%);
+      overflow-x:hidden;
+    }
+    .wrap{
+      min-height:100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
+      position:relative;
+      isolation:isolate;
+    }
+    /* Luciérnagas */
+    .fireflies{
+      position:absolute; inset:0; pointer-events:none; z-index:0;
+    }
+    .fireflies span{
+      position:absolute; width:6px;height:6px;border-radius:50%;
+      background: radial-gradient(circle, rgba(255,245,180,0.95) 0%, rgba(255,245,180,0.4) 40%, transparent 70%);
+      filter: drop-shadow(0 0 6px rgba(255,245,180,0.9));
+      animation: drift 12s linear infinite, twinkle 2.8s ease-in-out infinite;
+    }
+    @keyframes drift{
+      from{ transform: translate3d(0,0,0) }
+      to  { transform: translate3d(0,-120vh,0) }
+    }
+    @keyframes twinkle{
+      0%,100%{ opacity:0.2 }
+      50%{ opacity:1 }
+    }
+    /* Generar varias luciérnagas */
+    .fireflies span:nth-child(1){ left:5%;  bottom:-10vh; animation-delay:0s }
+    .fireflies span:nth-child(2){ left:18%; bottom:-12vh; animation-delay:1.2s }
+    .fireflies span:nth-child(3){ left:30%; bottom:-14vh; animation-delay:2.1s }
+    .fireflies span:nth-child(4){ left:44%; bottom:-16vh; animation-delay:0.6s }
+    .fireflies span:nth-child(5){ left:57%; bottom:-18vh; animation-delay:1.9s }
+    .fireflies span:nth-child(6){ left:70%; bottom:-13vh; animation-delay:0.3s }
+    .fireflies span:nth-child(7){ left:82%; bottom:-15vh; animation-delay:1.4s }
+    .fireflies span:nth-child(8){ left:91%; bottom:-11vh; animation-delay:2.6s }
+
+    /* Tarjeta */
+    .card{
+      position:relative;
+      z-index:1;
+      max-width:860px;
+      width:100%;
+      border-radius:20px;
+      padding:28px 24px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.04));
+      border:1px solid var(--glass-brd);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.45), inset 0 0 0 1px rgba(255,255,255,0.05);
+    }
+    .gold-line{
+      height:2px; width:100%;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      margin:14px 0 18px;
+      opacity:0.8;
+    }
+    header{
+      text-align:center;
+      padding:8px 8px 0;
+    }
+    .pretitle{
+      letter-spacing:0.18em; text-transform:uppercase; font-size:14px; color:#e9dfc6;
+    }
+    h1{
+      font-family:"Parisienne", cursive;
+      font-size:54px; line-height:1.1; margin:6px 0 4px; color:#fff9df;
+      text-shadow: 0 2px 12px rgba(212,175,55,0.25);
+    }
+    .subtitle{
+      font-size:20px; color:#f4eada; letter-spacing:0.08em;
+    }
+    .content{
+      display:grid; gap:18px; grid-template-columns: 1fr; margin-top:14px;
+    }
+    @media(min-width:860px){
+      .content{ grid-template-columns: 1.1fr 0.9fr }
+    }
+    .message{
+      font-size:20px; line-height:1.55; color:#fff;
+      background: rgba(255,255,255,0.06);
+      border:1px solid rgba(255,255,255,0.25);
+      border-radius:14px; padding:18px;
+    }
+    .panel{
+      display:flex; flex-direction:column; gap:14px;
+      background: rgba(13,27,42,0.45);
+      border:1px solid rgba(255,255,255,0.18);
+      border-radius:14px; padding:16px;
+    }
+    .row{ display:flex; gap:10px; align-items:center; flex-wrap:wrap }
+    label{ font-size:14px; opacity:0.9 }
+    input[type="text"], input[type="datetime-local"], input[type="url"], textarea, select{
+      width:100%; background: rgba(255,255,255,0.08);
+      border:1px solid rgba(255,255,255,0.25);
+      color:#fff; padding:10px 12px; border-radius:10px; font-size:16px;
+    }
+    textarea{ min-height:86px; resize:vertical }
+    .buttons{ display:flex; gap:12px; flex-wrap:wrap; margin-top:8px }
+    .btn{
+      appearance:none; border:none; border-radius:999px; padding:12px 18px;
+      font-weight:600; letter-spacing:0.03em; cursor:pointer; transition:transform .08s ease, box-shadow .2s ease, background .2s ease;
+      color:#0b1a27; background: linear-gradient(180deg, #f7e7a6, var(--gold));
+      box-shadow: 0 6px 16px rgba(212,175,55,0.35);
+    }
+    .btn:hover{ transform: translateY(-1px) }
+    .btn.secondary{
+      background: linear-gradient(180deg, #bfa2db, #a88dc9); color:#0d1b2a;
+      box-shadow: 0 6px 16px rgba(200,162,200,0.35);
+    }
+    .btn.ghost{
+      background: rgba(255,255,255,0.06); color:#fff; border:1px solid rgba(255,255,255,0.25);
+      box-shadow:none;
+    }
+    .countdown{
+      display:grid; grid-template-columns: repeat(4, 1fr); gap:8px; text-align:center;
+    }
+    .timebox{
+      background: rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.25);
+      border-radius:12px; padding:10px;
+    }
+    .num{ font-size:34px; font-weight:600 }
+    .label{ font-size:13px; letter-spacing:0.08em; text-transform:uppercase; opacity:0.9 }
+    .audio{
+      display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+      background: rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.25);
+      border-radius:12px; padding:12px;
+    }
+    .vol{ width:140px }
+    .edit-toggle{
+      position:absolute; top:12px; right:12px; z-index:2;
+    }
+    .pill{
+      font-size:12px; padding:8px 12px; border-radius:999px; border:1px solid rgba(255,255,255,0.35);
+      background: rgba(255,255,255,0.06); color:#fff; cursor:pointer
+    }
+    /* Lirios decorativos */
+    .lilies{
+      position:absolute; bottom:-10px; left:50%; transform:translateX(-50%); width:90%; max-width:900px; opacity:0.28; z-index:0;
+    }
+    .footer-note{ text-align:center; font-size:14px; opacity:0.9; margin-top:10px }
+    [contenteditable="true"]{ outline: 1px dashed rgba(255,255,255,0.35); outline-offset:4px; border-radius:8px; padding:4px }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="fireflies" aria-hidden="true">
+      <span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span>
+    </div>
+
+    <div class="card" role="region" aria-label="Invitación Mis 15">
+      <div class="edit-toggle">
+        <button class="pill" id="toggleEdit" aria-expanded="false">Editar</button>
+      </div>
+
+      <header>
+        <div class="pretitle"></div>
+        <h1 id="title" contenteditable="false">Mis 15 - Nombre</h1>
+        <div class="subtitle" id="subtitle">Sábado 20 de diciembre · 21:00 hs</div>
+      </header>
+
+      <div class="gold-line"></div>
+
+      <div class="content">
+        <section aria-label="Mensaje">
+          <div class="message" id="message" contenteditable="false">
+            Con mucha alegría te invito a celebrar mis 15 años. Será una noche especial, llena de magia, música y luces.
+            Tu presencia hará este sueño aún más brillante.
+          </div>
+
+          <div class="gold-line"></div>
+
+          <div class="panel" aria-label="Controles de música">
+            <div class="row">
+              <label for="track">Música:</label>
+              <select id="track" aria-label="Elegir pista">
+                <option value="">— Elegir pista —</option>
+                <option value="track1.mp3">Pista 1 (romántica)</option>
+                <option value="track2.mp3">Pista 2 (instrumental)</option>
+                <option value="track3.mp3">Pista 3 (balada)</option>
+              </select>
+              <button class="btn secondary" id="playPause" aria-label="Reproducir/Pausar">Reproducir</button>
+              <label for="vol" style="min-width:70px">Volumen</label>
+              <input class="vol" id="vol" type="range" min="0" max="1" step="0.01" value="0.5" aria-label="Volumen">
+              <audio id="audio" preload="none"></audio>
+            </div>
+          </div>
+        </section>
+
+        <aside aria-label="Acciones y cuenta regresiva">
+          <div class="panel">
+            <div style="margin-bottom:6px; font-weight:600; letter-spacing:0.06em">Cuenta regresiva</div>
+            <div class="countdown" id="countdown" aria-live="polite">
+              <div class="timebox"><div class="num" id="d">—</div><div class="label">Días</div></div>
+              <div class="timebox"><div class="num" id="h">—</div><div class="label">Horas</div></div>
+              <div class="timebox"><div class="num" id="m">—</div><div class="label">Min</div></div>
+              <div class="timebox"><div class="num" id="s">—</div><div class="label">Seg</div></div>
+            </div>
+
+            <div class="buttons">
+              <a id="btnRSVP" class="btn" href="#" target="_blank" rel="noopener">Confirmar asistencia</a>
+              <a id="btnMap" class="btn ghost" href="#" target="_blank" rel="noopener">Ubicación</a>
+            </div>
+            <div class="footer-note">Código de vestimenta: elegante</div>
+          </div>
+
+          <div class="panel" id="editPanel" hidden>
+            <div class="row">
+              <label for="edtTitle">Título</label>
+              <input id="edtTitle" type="text" placeholder="Mis 15 - Nombre">
+            </div>
+            <div class="row">
+              <label for="edtSubtitle">Subtítulo (fecha/horario breve)</label>
+              <input id="edtSubtitle" type="text" placeholder="Sábado 20 de diciembre · 21:00 hs">
+            </div>
+            <div class="row">
+              <label for="edtMessage">Mensaje</label>
+              <textarea id="edtMessage" placeholder="Texto de invitación"></textarea>
+            </div>
+            <div class="row">
+              <label for="edtWhen">Fecha y hora</label>
+              <input id="edtWhen" type="datetime-local">
+            </div>
+            <div class="row">
+              <label for="edtRSVP">Enlace de RSVP (WhatsApp o Formulario)</label>
+              <input id="edtRSVP" type="url" placeholder="https://wa.me/54...?...">
+            </div>
+            <div class="row">
+              <label for="edtMap">Enlace de ubicación (Google Maps)</label>
+              <input id="edtMap" type="url" placeholder="https://maps.google.com/...">
+            </div>
+            <div class="buttons">
+              <button class="btn" id="save">Guardar</button>
+              <button class="btn ghost" id="clear">Restablecer</button>
+            </div>
+          </div>
+        </aside>
+      </div>
+
+      <!-- Decoración de lirios (SVG) -->
+      <svg class="lilies" viewBox="0 0 800 160" aria-hidden="true">
+        <defs>
+          <linearGradient id="leaf" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#7FB77E"/>
+            <stop offset="100%" stop-color="#2F7D61"/>
+          </linearGradient>
+        </defs>
+        <ellipse cx="120" cy="120" rx="120" ry="28" fill="url(#leaf)"/>
+        <ellipse cx="320" cy="135" rx="140" ry="26" fill="url(#leaf)"/>
+        <ellipse cx="560" cy="125" rx="150" ry="30" fill="url(#leaf)"/>
+        <circle cx="120" cy="105" r="8" fill="#C8A2C8"/>
+        <circle cx="320" cy="120" r="10" fill="#C8A2C8"/>
+        <circle cx="560" cy="112" r="9" fill="#C8A2C8"/>
+      </svg>
+    </div>
+  </div>
+
+  <script>
+    // Configuración editable por defecto
+    const DEFAULTS = {
+      title: "Mis 15 - Nombre",
+      subtitle: "Sábado 20 de diciembre · 21:00 hs",
+      message: "Con mucha alegría te invito a celebrar mis 15 años. Será una noche especial, llena de magia, música y luces. Tu presencia hará este sueño aún más brillante.",
+      whenISO: "", // EJ: "2025-12-20T21:00"
+      rsvpURL: "#",
+      mapURL: "#",
+      tracks: [
+        {label:"Pista 1 (romántica)", url:"https://drive.google.com/file/d/1kNCgV-YG1fCT2WNgS_dwV8tDXf401c9t/view?usp=drivesdk""},
+        {label:"Pista 2 (instrumental)", url:"track2.mp3"},
+        {label:"Pista 3 (balada)", url:"track3.mp3"}
+      ]
+    };
+
+    const $ = (sel)=>document.querySelector(sel);
+    const els = {
+      title: $("#title"),
+      subtitle: $("#subtitle"),
+      message: $("#message"),
+      d: $("#d"), h: $("#h"), m: $("#m"), s: $("#s"),
+      countdown: $("#countdown"),
+      btnRSVP: $("#btnRSVP"),
+      btnMap: $("#btnMap"),
+      track: $("#track"),
+      audio: $("#audio"),
+      playPause: $("#playPause"),
+      vol: $("#vol"),
+      // Editores
+      toggleEdit: $("#toggleEdit"),
+      editPanel: $("#editPanel"),
+      edtTitle: $("#edtTitle"),
+      edtSubtitle: $("#edtSubtitle"),
+      edtMessage: $("#edtMessage"),
+      edtWhen: $("#edtWhen"),
+      edtRSVP: $("#edtRSVP"),
+      edtMap: $("#edtMap"),
+      save: $("#save"),
+      clear: $("#clear"),
+    };
+
+    let state = loadState();
+
+    function loadState(){
+      try{
+        const s = JSON.parse(localStorage.getItem("invite15")) || {};
+        return {...DEFAULTS, ...s};
+      }catch(e){ return {...DEFAULTS}; }
+    }
+    function saveState(){
+      localStorage.setItem("invite15", JSON.stringify(state));
+    }
+    function applyState(){
+      els.title.textContent = state.title;
+      els.subtitle.textContent = state.subtitle;
+      els.message.textContent = state.message;
+      els.btnRSVP.href = state.rsvpURL || "#";
+      els.btnMap.href = state.mapURL || "#";
+      // Rellenar editor
+      els.edtTitle.value = state.title;
+      els.edtSubtitle.value = state.subtitle;
+      els.edtMessage.value = state.message;
+      els.edtWhen.value = state.whenISO ? state.whenISO : "";
+      els.edtRSVP.value = state.rsvpURL;
+      els.edtMap.value = state.mapURL;
+      // Tracks
+      els.track.innerHTML = '<option value="">— Elegir pista —</option>' +
+        state.tracks.map(t=>`<option value="${t.url}">${t.label}</option>`).join("");
+    }
+    applyState();
+
+    // Modo edición
+    els.toggleEdit.addEventListener("click", ()=>{
+      const isHidden = els.editPanel.hasAttribute("hidden");
+      els.editPanel.toggleAttribute("hidden");
+      els.toggleEdit.setAttribute("aria-expanded", String(isHidden));
+      const edit = !isHidden;
+      [els.title, els.message].forEach(el=> el.setAttribute("contenteditable", edit? "true":"false"));
+    });
+    els.save.addEventListener("click", ()=>{
+      state.title = els.edtTitle.value.trim() || DEFAULTS.title;
+      state.subtitle = els.edtSubtitle.value.trim() || DEFAULTS.subtitle;
+      state.message = els.edtMessage.value.trim() || DEFAULTS.message;
+      state.whenISO = els.edtWhen.value;
+      state.rsvpURL = els.edtRSVP.value.trim();
+      state.mapURL = els.edtMap.value.trim();
+      saveState();
+      applyState();
+      alert("Guardado.");
+    });
+    els.clear.addEventListener("click", ()=>{
+      if(confirm("¿Restablecer a valores iniciales?")){
+        localStorage.removeItem("invite15");
+        state = {...DEFAULTS};
+        applyState();
+      }
+    });
+
+    // Reproductor
+    let playing = false;
+    els.playPause.addEventListener("click", async ()=>{
+      try{
+        if(!els.audio.src){
+          const url = els.track.value;
+          if(!url){ alert("Elegí una pista primero."); return; }
+          els.audio.src = url;
+        }
+        if(playing){ els.audio.pause(); els.playPause.textContent="Reproducir"; }
+        else { await els.audio.play(); els.playPause.textContent="Pausar"; }
+        playing = !playing;
+      }catch(e){
+        alert("No se pudo reproducir. Asegurate de usar un archivo de audio válido (mp3/ogg) y que el navegador permita sonido.");
+      }
+    });
+    els.track.addEventListener("change", ()=>{
+      const wasPlaying = playing;
+      playing = false;
+      els.audio.pause();
+      els.audio.src = els.track.value || "";
+      els.playPause.textContent = "Reproducir";
+      if(wasPlaying && els.audio.src) { els.audio.play(); playing = true; els.playPause.textContent="Pausar"; }
+    });
+    els.vol.addEventListener("input", ()=>{ els.audio.volume = parseFloat(els.vol.value) });
+
+    // Cuenta regresiva
+    function updateCountdown(){
+      if(!state.whenISO){
+        els.d.textContent = "—"; els.h.textContent="—"; els.m.textContent="—"; els.s.textContent="—";
+        return;
+      }
+      const target = new Date(state.whenISO);
+      const now = new Date();
+      const diff = target.getTime() - now.getTime();
+      if(diff <= 0){
+        els.d.textContent = "0"; els.h.textContent="0"; els.m.textContent="0"; els.s.textContent="0";
+        els.countdown.setAttribute("aria-label","¡Es hoy!");
+        return;
+      }
+      const sec = Math.floor(diff/1000);
+      const days = Math.floor(sec/86400);
+      const hours = Math.floor((sec%86400)/3600);
+      const mins = Math.floor((sec%3600)/60);
+      const secs = sec%60;
+      els.d.textContent = String(days);
+      els.h.textContent = String(hours).padStart(2,"0");
+      els.m.textContent = String(mins).padStart(2,"0");
+      els.s.textContent = String(secs).padStart(2,"0");
+    }
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+
+    // Sugerencia de enlace WhatsApp (ejemplo)
+    // Usa esto como plantilla si no tenés formulario:
+    // const tel = "549XXXXXXXXX"; // con código país sin + ni 00
+    // const texto = encodeURIComponent("Hola, confirmo asistencia a los 15 de [Nombre]. Somos [X] personas. ¡Gracias!");
+    // state.rsvpURL = `https://wa.me/${tel}?text=${texto}`;
+
+  </script>
+</body>
+</html>
